@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>FLICKER &#8212; FLICKER  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="user/install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="flicker">
+<h1>FLICKER<a class="headerlink" href="#flicker" title="Permalink to this headline">¶</a></h1>
+<p><em>FLICKER</em> is a tool to calculate Flicker value of a lightcurve.</p>
+<p>Example usage
+On single lightcurve from one observing quarter:
+————-</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">FLICKER</span> <span class="k">as</span> <span class="nn">flc</span>
+
+<span class="c1"># Create a simple 100-day lightcurve with 15 day period</span>
+<span class="n">time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># time array [days]</span>
+<span class="n">flux</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">time</span><span class="o">/</span><span class="mf">15.</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">))</span> <span class="c1"># flux array</span>
+
+<span class="c1"># get flicker value</span>
+<span class="n">flicker</span><span class="o">=</span><span class="n">flc</span><span class="o">.</span><span class="n">Flicker</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">flux</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">flicker</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="mf">0.1770736690463002</span>
+</pre></div>
+</div>
+<p>This function will return the median flicker value if input is multiple lightcurves from multiple observing quarters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create 10 lightcurves with observing time span</span>
+<span class="n">time</span><span class="o">=</span><span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span> <span class="c1"># empty list to put multiple lightcurves</span>
+<span class="n">flux</span><span class="o">=</span><span class="p">[[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span> <span class="c1"># empty list to put multiple lightcurves</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">t_sp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span> <span class="c1"># random timespan from 10-200 days</span>
+    <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">t_sp</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># time array [days]</span>
+    <span class="n">flux</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="mf">15.</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="c1"># flux array</span>
+
+<span class="c1"># get flicker value</span>
+<span class="n">flicker</span><span class="o">=</span><span class="n">flc</span><span class="o">.</span><span class="n">Flicker</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">flux</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">flicker</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="mf">0.2111953677723607</span>
+</pre></div>
+</div>
+<div class="section" id="user-guide">
+<h2>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user/install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/install.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/api.html">API documentation</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Tutorial.html">Tutorial</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="license-attribution">
+<h2>License &amp; attribution<a class="headerlink" href="#license-attribution" title="Permalink to this headline">¶</a></h2>
+<p>Copyright 2019, Yuxi(Lucy) Lu.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">FLICKER</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/api.html">API documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/Tutorial.html">Tutorial</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="user/install.html" title="next chapter">Installation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Yuxi(Lucy) Lu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
