@@ -88,22 +88,25 @@ def Flicker(time,flux,Time=8,Kp=0):
     Returns:
       flicker: flicker value
     """
+    flux=np.array(flux)
+    time=np.array(time)
+    ########################################## Sanity checks ##########################################
+    # check dimension
+    if flux.ndim>2:
+        raise OverflowError('Input flux and time dimension must be 1 or 2!')
+    ########################################## Sanity checks ##########################################
     
     # figure out if input is a list of list or an array
     try:
         row,col=np.shape(flux)
         quart=min([row,col])
+        if quart>2:
+            quart=2
     except ValueError:
         if type(flux[0]) is list:
-            quart=2
+            quart=3
         else:
             quart=1
-   
-    ########################################## Sanity checks ##########################################
-    # check dimension
-    if quart>2:
-        raise OverflowError('Input flux and time dimension must be 1 or 2!')
-    ########################################## Sanity checks ##########################################
         
     # calculate correction if Kp!=0
     if Kp!=0:
@@ -114,7 +117,22 @@ def Flicker(time,flux,Time=8,Kp=0):
     
     if quart==1: # if 1D
         flicker=SingleFlicker(time,flux,Time)
-    else: # if 2d
+    elif quart==2: # if 2D and are composed of lists with same number of arrays
+        row,col=np.shape(flux)
+        if col>row:
+            time=time.T
+            flux=flux.T
+            row,col=np.shape(flux)
+        flicker_a=np.zeros(col) # flicker array
+        for j in range(col):
+            time_sing=time[:,j]
+            flux_sing=flux[:,j]
+        
+            flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
+        flicker=np.median(flicker_a)
+            
+            
+    else: # if 2d and is composed of uneven list
         flicker_a=np.zeros(len(flux)) # flicker array
 
         for j in range(len(flux)):
@@ -122,7 +140,7 @@ def Flicker(time,flux,Time=8,Kp=0):
             flux_sing=flux[j]
         
             flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
-            flicker=np.median(flicker_a)
+        flicker=np.median(flicker_a)
     
     # if no magnitude, return only flicker value, else return corrected flicker value as well
     if Kp==0:
