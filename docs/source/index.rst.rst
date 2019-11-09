@@ -11,6 +11,7 @@ FLICKER
 Example usage
 On single lightcurve from one observing quarter:
 -------------
+
 ::
     import numpy as np
     import FLICKER as flc
