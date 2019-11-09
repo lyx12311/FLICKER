@@ -103,7 +103,7 @@ def Flicker(time,flux,Time=8,Kp=0):
         if quart>2:
             quart=2
     except ValueError:
-        if type(flux[0]) is list:
+        if (type(flux[0]) is list) or (type(flux[0]) is np.ndarray):
             quart=3
         else:
             quart=1
