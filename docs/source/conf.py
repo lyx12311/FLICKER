@@ -28,13 +28,17 @@ author = 'Yuxi(Lucy) Lu'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # The master toctree document.
-master_doc = 'index.rst'
+master_doc = 'index'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -44,12 +48,30 @@ exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
+
+# -- Options for HTML output ----------------------------------------------
+
+# Readthedocs.
+import os
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+if not on_rtd:
+    import sphinx_rtd_theme
+    html_theme = "sphinx_rtd_theme"
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    
+    
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+#html_theme = 'alabaster'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# Output file base name for HTML help builder.
+htmlhelp_basename = 'FLICKERdoc'
+
+
+
