@@ -130,7 +130,7 @@ def Flicker(time,flux,Time=8,Kp=0):
             if len(time_sing)==0:
                 print('Warning: there is lightcurve with 0 lenghth!')
                 flicker_a[j]=0
-	    else:
+            else:
                 flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
         flicker=np.median(flicker_a)
             
@@ -144,7 +144,7 @@ def Flicker(time,flux,Time=8,Kp=0):
             if len(time_sing)==0:
                 print('Warning: there is lightcurve with 0 lenghth!')
                 flicker_a[j]=0
-	    else:
+            else:
                 flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
         flicker=np.median(flicker_a)
     
