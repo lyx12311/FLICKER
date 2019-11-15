@@ -46,8 +46,8 @@ master_doc = 'index'
 exclude_patterns = []
 
 
-# -- Options for HTML output -------------------------------------------------
-
+# The name of the Pygments (syntax highlighting) style to use.
+pygments_style = 'sphinx'
 
 # -- Options for HTML output ----------------------------------------------
 

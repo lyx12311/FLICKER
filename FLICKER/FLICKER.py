@@ -127,8 +127,11 @@ def Flicker(time,flux,Time=8,Kp=0):
         for j in range(col):
             time_sing=time[:,j]
             flux_sing=flux[:,j]
-        
-            flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
+            if len(time_sing)==0:
+                print('Warning: there is lightcurve with 0 lenghth!')
+                flicker_a[j]=0
+	    else:
+                flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
         flicker=np.median(flicker_a)
             
             
@@ -138,8 +141,11 @@ def Flicker(time,flux,Time=8,Kp=0):
         for j in range(len(flux)):
             time_sing=time[j]
             flux_sing=flux[j]
-        
-            flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
+            if len(time_sing)==0:
+                print('Warning: there is lightcurve with 0 lenghth!')
+                flicker_a[j]=0
+	    else:
+                flicker_a[j]=SingleFlicker(time_sing,flux_sing,Time)
         flicker=np.median(flicker_a)
     
     # if no magnitude, return only flicker value, else return corrected flicker value as well
