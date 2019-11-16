@@ -13,7 +13,7 @@ From source:
 Dependencies
 ------------
 
-The dependencies of *stardate* are
+The dependencies of *FLICKER* are
 `NumPy <http://www.numpy.org/>`_,
 `pandas <https://pandas.pydata.org/>`_.
 
