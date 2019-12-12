@@ -5,8 +5,8 @@ def linearInt(x,y):
     """Linear interpolation between 2 points.
 
     Args:
-      x: x values
-      y: y values
+      x ([array-like]): x values
+      y ([array-like]): y values
 
     Returns:
       f: linear function returned that accepts x and return y
@@ -20,16 +20,16 @@ def linearInt(x,y):
     return f
 
 
-def SingleFlicker(time,flux,Time):
+def SingleFlicker(time,flux,Time=8):
     """Calculate Flicker value for a single lightcurve.
 
     Args:
-      time: time in unit of days
-      flux: flux in unit of ppt
-      Time: timescale to calculate flicker value, in unit of days
+      time ([array-like]): time in unit of days
+      flux ([array-like]): flux in unit of ppt
+      Time (Optional [float]): timescale to calculate flicker value, in unit of days
 
     Returns:
-      flicker: flicker value
+      flicker ([float]): flicker value
     """
     # squeeze into 1d array
     time=np.squeeze(time)
@@ -80,13 +80,13 @@ def Flicker(time,flux,Time=8,Kp=0):
     the median flicker value from all the quarters. 
 
     Args:
-      time: time in unit of days
-      flux: flux in unit of ppt
-      Time: timescale to calculate flicker value, in unit of hours (optional)
-      Kp: Kepler magnitude for correction (optional)
+      time ([array-like]): time in unit of days
+      flux ([array-like]): flux in unit of ppt
+      Time (Optional[float]): timescale to calculate flicker value, in units of hours
+      Kp (Optional[float]): Kepler magnitude for correction (optional)
 
     Returns:
-      flicker: flicker value
+      flicker ([float]): flicker value
     """
     flux=np.array(flux)
     time=np.array(time)
